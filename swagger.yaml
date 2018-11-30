@@ -2,7 +2,7 @@
   info:
     description: Running with /api prefix
     version: '1.0'
-    title: ALICE-Bookkeeping
+    title: Jiskefet
   basePath: /api
   tags:
     - name: logs
