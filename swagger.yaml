@@ -121,12 +121,12 @@
             required: false
             in: query
             description: The id of the activity.
-          - type: number
+          - type: integer
             name: runType
             required: false
             in: query
             description: The type of the run.
-          - type: number
+          - type: integer
             name: runQuality
             required: false
             in: query
@@ -145,7 +145,7 @@
     '/runs/{id}':
       get:
         parameters:
-          - type: number
+          - type: integer
             name: id
             required: true
             in: path
@@ -168,7 +168,7 @@
             in: body
             schema:
               $ref: '#/definitions/LinkLogToRunDto'
-          - type: number
+          - type: integer
             name: id
             required: true
             in: path
@@ -282,7 +282,7 @@
     '/logs/{id}':
       get:
         parameters:
-          - type: number
+          - type: integer
             name: id
             required: true
             in: path
@@ -305,7 +305,7 @@
             in: body
             schema:
               $ref: '#/definitions/LinkRunToLogDto'
-          - type: number
+          - type: integer
             name: id
             required: true
             in: path
@@ -342,7 +342,7 @@
     '/attachments/{id}/logs':
       get:
         parameters:
-          - type: number
+          - type: integer
             name: id
             required: true
             in: path
@@ -373,7 +373,7 @@
     '/subsystems/{id}':
       get:
         parameters:
-          - type: number
+          - type: integer
             name: id
             required: true
             in: path
@@ -391,7 +391,7 @@
     '/users/{id}':
       get:
         parameters:
-          - type: number
+          - type: integer
             name: id
             required: true
             in: path
@@ -409,7 +409,7 @@
     '/users/{id}/tokens':
       get:
         parameters:
-          - type: number
+          - type: integer
             name: id
             required: true
             in: path
@@ -427,7 +427,7 @@
     '/users/{id}/tokens/new':
       post:
         parameters:
-          - type: number
+          - type: integer
             name: id
             required: true
             in: path
@@ -504,8 +504,8 @@
           - application/json
   definitions:
     Date:
-      type: object
-      properties: {}
+      type: string
+      format: date-time
     CreateRunDto:
       type: object
       properties:
@@ -548,31 +548,31 @@
           example: Sl4e12ofb83no92ns
           description: The id of the activity.
         nDetectors:
-          type: number
+          type: integer
           example: 16
           description: Number of detectors during run.
         nFlps:
-          type: number
+          type: integer
           example: 7
           description: Number of FLPs that computed data
         nEpns:
-          type: number
+          type: integer
           example: 8
           description: Number of EPNs that stored data
         nTimeframes:
-          type: number
+          type: integer
           example: 2
           description: Number of timeframes
         nSubtimeframes:
-          type: number
+          type: integer
           example: 4
           description: Number of subtimeframes
         bytesReadOut:
-          type: number
+          type: integer
           example: 5
           description: Amount of bytes read out
         bytesTimeframeBuilder:
-          type: number
+          type: integer
           example: 12
           description: What builder was used.
       required:
@@ -594,7 +594,7 @@
       type: object
       properties:
         logId:
-          type: number
+          type: integer
           example: '1'
           description: The id of the log to link to the run.
       required:
@@ -650,7 +650,7 @@
       type: object
       properties:
         runNumber:
-          type: number
+          type: integer
           example: '1'
           description: The id of the run to link to the log.
       required:
@@ -671,7 +671,7 @@
           example: '23144132412314344'
           description: What kind of log is it?
         logId:
-          type: number
+          type: integer
           example: 1
           description: The id of the corresponding Log
       required:
@@ -680,11 +680,9 @@
         - fileData
         - logId
     User:
-      type: object
-      properties: {}
+      type: integer
     SubSystem:
-      type: object
-      properties: {}
+      type: integer
     CreateSubSystemPermissionDto:
       type: object
       properties:
