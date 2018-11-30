@@ -1,4 +1,3 @@
-swaggerDoc:
   swagger: '2.0'
   info:
     description: Running with /api prefix
@@ -69,42 +68,50 @@ swaggerDoc:
             required: false
             in: query
             description: The id of the log.
-          - type: date
+          - type: string
+            format: date-time
             name: startTimeO2Start
             required: false
             in: query
             description: The lower bound of the timeO2Start filter range.
-          - type: date
+          - type: string
+            format: date-time
             name: endTimeO2Start
             required: false
             in: query
             description: The upper bound of the timeO2Start filter range.
-          - type: date
+          - type: string
+            format: date-time
             name: startTimeTrgStart
             required: false
             in: query
             description: The lower bound of the timeTrgStart filter range.
-          - type: date
+          - type: string
+            format: date-time
             name: endTimeTrgStart
             required: false
             in: query
             description: The upper bound of the timeTrgStart filter range.
-          - type: date
+          - type: string
+            format: date-time
             name: startTimeTrgEnd
             required: false
             in: query
             description: The lower bound of the timeTrgEnd filter range.
-          - type: date
+          - type: string
+            format: date-time
             name: endTimeTrgEnd
             required: false
             in: query
             description: The upper bound of the timeTrgEnd filter range.
-          - type: date
+          - type: string
+            format: date-time
             name: startTimeO2End
             required: false
             in: query
             description: The lower bound of the timeO2End filter range.
-          - type: date
+          - type: string
+            format: date-time
             name: endTimeO2End
             required: false
             in: query
@@ -420,6 +427,10 @@ swaggerDoc:
     '/users/{id}/tokens/new':
       post:
         parameters:
+          - type: number
+            name: id
+            required: true
+            in: path
           - name: CreateSubSystemPermissionDto
             required: true
             in: body
@@ -440,10 +451,10 @@ swaggerDoc:
       get:
         summary: Authenticate a user by giving an Authorization Grant.
         parameters:
-          - name: grant
+          - type: string
+            name: grant
             required: true
             in: query
-            type: ''
         responses:
           '200':
             description: User has successfully authenticated and a JWT has been given as a response.
