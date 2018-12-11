@@ -133,7 +133,9 @@
             description: The quality of the run.
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - runs
         security:
@@ -151,7 +153,9 @@
             in: path
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - runs
         security:
@@ -174,7 +178,9 @@
             in: path
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - runs
         security:
@@ -270,7 +276,9 @@
             description: The upper bound of the creation time filter range.
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - logs
         security:
@@ -288,7 +296,9 @@
             in: path
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - logs
         security:
@@ -311,7 +321,9 @@
             in: path
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - logs
         security:
@@ -348,7 +360,9 @@
             in: path
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - attachments
         security:
@@ -361,7 +375,9 @@
       get:
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - subsystems
         security:
@@ -379,7 +395,9 @@
             in: path
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - subsystems
         security:
@@ -397,7 +415,9 @@
             in: path
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - users
         security:
@@ -415,7 +435,9 @@
             in: path
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - users
         security:
@@ -458,6 +480,8 @@
         responses:
           '200':
             description: User has successfully authenticated and a JWT has been given as a response.
+            schema:
+              type: string
           '401':
             description: User is unauthorized due to an invalid Authorization Grant.
           '422':
@@ -475,6 +499,8 @@
         responses:
           '200':
             description: User successfully received profile information.
+            schema:
+              type: string
           '401':
             description: User is unauthorized
         tags:
@@ -493,7 +519,9 @@
             description: In which time range the logs of eachsubsystem should be posted
         responses:
           '200':
-            description: ''
+            description: OK
+            schema:
+              type: string
         tags:
           - overview
         security:
