@@ -28,6 +28,8 @@
         responses:
           '201':
             description: ''
+            schema:
+              type: object
         tags:
           - runs
         security:
@@ -135,7 +137,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - runs
         security:
@@ -155,7 +157,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - runs
         security:
@@ -180,7 +182,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - runs
         security:
@@ -200,6 +202,8 @@
         responses:
           '201':
             description: ''
+            schema:
+              type: object
         tags:
           - logs
         security:
@@ -278,7 +282,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - logs
         security:
@@ -298,7 +302,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - logs
         security:
@@ -323,7 +327,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - logs
         security:
@@ -362,7 +366,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - attachments
         security:
@@ -377,7 +381,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - subsystems
         security:
@@ -397,7 +401,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - subsystems
         security:
@@ -417,7 +421,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - users
         security:
@@ -437,7 +441,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - users
         security:
@@ -481,7 +485,7 @@
           '200':
             description: User has successfully authenticated and a JWT has been given as a response.
             schema:
-              type: string
+              type: object
           '401':
             description: User is unauthorized due to an invalid Authorization Grant.
           '422':
@@ -500,7 +504,7 @@
           '200':
             description: User successfully received profile information.
             schema:
-              type: string
+              type: object
           '401':
             description: User is unauthorized
         tags:
@@ -521,7 +525,7 @@
           '200':
             description: OK
             schema:
-              type: string
+              type: object
         tags:
           - overview
         security:
@@ -531,36 +535,25 @@
         consumes:
           - application/json
   definitions:
-    Date:
-      type: string
-      format: date-time
     CreateRunDto:
       type: object
       properties:
         timeO2Start:
-          title: Date
-          allOf:
-            - $ref: '#/definitions/Date'
-            - example: '2018-11-26T16:43:22.279Z'
-              description: Current Date
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
         timeTrgStart:
-          title: Date
-          allOf:
-            - $ref: '#/definitions/Date'
-            - example: '2018-11-26T16:43:22.283Z'
-              description: Current Date
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
         timeO2End:
-          title: Date
-          allOf:
-            - $ref: '#/definitions/Date'
-            - example: '2018-11-26T16:43:22.288Z'
-              description: Current Date
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
         timeTrgEnd:
-          title: Date
-          allOf:
-            - $ref: '#/definitions/Date'
-            - example: '2018-11-26T16:43:22.289Z'
-              description: Current Date
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
         runType:
           type: string
           example:
@@ -603,6 +596,86 @@
           type: integer
           example: 12
           description: What builder was used.
+      required:
+        - timeO2Start
+        - timeTrgStart
+        - timeO2End
+        - timeTrgEnd
+        - runType
+        - runQuality
+        - activityId
+        - nDetectors
+        - nFlps
+        - nEpns
+        - nTimeframes
+        - nSubtimeframes
+        - bytesReadOut
+        - bytesTimeframeBuilder
+    CreateRunResultDto:
+      type: object
+      properties:
+        timeO2Start:
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
+        timeTrgStart:
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
+        timeO2End:
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
+        timeTrgEnd:
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
+        runType:
+          type: string
+          example:
+            - test
+          description: What kind of run.
+        runQuality:
+          type: string
+          example:
+            - test
+          description: The quality of the run.
+        activityId:
+          type: string
+          example: Sl4e12ofb83no92ns
+          description: The id of the activity.
+        nDetectors:
+          type: integer
+          example: 16
+          description: Number of detectors during run.
+        nFlps:
+          type: integer
+          example: 7
+          description: Number of FLPs that computed data
+        nEpns:
+          type: integer
+          example: 8
+          description: Number of EPNs that stored data
+        nTimeframes:
+          type: integer
+          example: 2
+          description: Number of timeframes
+        nSubtimeframes:
+          type: integer
+          example: 4
+          description: Number of subtimeframes
+        bytesReadOut:
+          type: integer
+          example: 5
+          description: Amount of bytes read out
+        bytesTimeframeBuilder:
+          type: integer
+          example: 12
+          description: What builder was used.
+        runNumber:
+          type: integer
+          example: 34
+          description: The run number.
       required:
         - timeO2Start
         - timeTrgStart
