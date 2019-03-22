@@ -1,7 +1,7 @@
   swagger: '2.0'
   info:
-    description: Running with /api prefix
-    version: '1.0'
+    description: Running with /api base path
+    version: 0.1.0
     title: Jiskefet
   basePath: /api
   tags:
@@ -30,6 +30,7 @@
             description: ''
             schema:
               type: object
+
         tags:
           - runs
         security:
@@ -123,19 +124,19 @@
             required: false
             in: query
             description: The id of the activity.
-          - type: integer
+          - type: string
             name: runType
             required: false
             in: query
             description: The type of the run.
-          - type: integer
+          - type: string
             name: runQuality
             required: false
             in: query
             description: The quality of the run.
         responses:
           '200':
-            description: OK
+            description: ''
             schema:
               type: object
         tags:
@@ -149,13 +150,37 @@
     '/runs/{id}':
       get:
         parameters:
-          - type: integer
+          - type: number
             name: id
             required: true
             in: path
         responses:
           '200':
-            description: OK
+            description: ''
+            schema:
+              type: object
+        tags:
+          - runs
+        security:
+          - bearer: []
+        produces:
+          - application/json
+        consumes:
+          - application/json
+      patch:
+        parameters:
+          - name: PatchRunDto
+            required: true
+            in: body
+            schema:
+              $ref: '#/definitions/PatchRunDto'
+          - type: number
+            name: id
+            required: true
+            in: path
+        responses:
+          '200':
+            description: ''
             schema:
               type: object
         tags:
@@ -174,13 +199,13 @@
             in: body
             schema:
               $ref: '#/definitions/LinkLogToRunDto'
-          - type: integer
+          - type: number
             name: id
             required: true
             in: path
         responses:
           '200':
-            description: OK
+            description: ''
             schema:
               type: object
         tags:
@@ -278,9 +303,14 @@
             required: false
             in: query
             description: The upper bound of the creation time filter range.
+          - type: user
+            name: user
+            required: false
+            in: query
+            description: The author of the log..
         responses:
           '200':
-            description: OK
+            description: ''
             schema:
               type: object
         tags:
@@ -294,13 +324,13 @@
     '/logs/{id}':
       get:
         parameters:
-          - type: integer
+          - type: number
             name: id
             required: true
             in: path
         responses:
           '200':
-            description: OK
+            description: ''
             schema:
               type: object
         tags:
@@ -319,17 +349,90 @@
             in: body
             schema:
               $ref: '#/definitions/LinkRunToLogDto'
-          - type: integer
+          - type: number
             name: id
             required: true
             in: path
         responses:
           '200':
-            description: OK
+            description: ''
             schema:
               type: object
         tags:
           - logs
+        security:
+          - bearer: []
+        produces:
+          - application/json
+        consumes:
+          - application/json
+    '/flp/{name}/runs/{id}':
+      get:
+        parameters:
+          - type: string
+            name: name
+            required: true
+            in: path
+          - type: number
+            name: id
+            required: true
+            in: path
+        responses:
+          '200':
+            description: ''
+            schema:
+              type: object
+        tags:
+          - flp
+        security:
+          - bearer: []
+        produces:
+          - application/json
+        consumes:
+          - application/json
+      patch:
+        parameters:
+          - name: PatchFlpDto
+            required: true
+            in: body
+            schema:
+              $ref: '#/definitions/PatchFlpDto'
+          - type: string
+            name: name
+            required: true
+            in: path
+          - type: number
+            name: id
+            required: true
+            in: path
+        responses:
+          '200':
+            description: ''
+            schema:
+              type: object
+        tags:
+          - flp
+        security:
+          - bearer: []
+        produces:
+          - application/json
+        consumes:
+          - application/json
+    /flp:
+      post:
+        parameters:
+          - name: CreateFlpDto
+            required: true
+            in: body
+            schema:
+              $ref: '#/definitions/CreateFlpDto'
+        responses:
+          '201':
+            description: ''
+            schema:
+              type: object
+        tags:
+          - flp
         security:
           - bearer: []
         produces:
@@ -347,6 +450,8 @@
         responses:
           '201':
             description: ''
+            schema:
+              type: object
         tags:
           - attachments
         security:
@@ -358,13 +463,13 @@
     '/attachments/{id}/logs':
       get:
         parameters:
-          - type: integer
+          - type: number
             name: id
             required: true
             in: path
         responses:
           '200':
-            description: OK
+            description: ''
             schema:
               type: object
         tags:
@@ -379,9 +484,7 @@
       get:
         responses:
           '200':
-            description: OK
-            schema:
-              type: object
+            description: ''
         tags:
           - subsystems
         security:
@@ -393,13 +496,13 @@
     '/subsystems/{id}':
       get:
         parameters:
-          - type: integer
+          - type: number
             name: id
             required: true
             in: path
         responses:
           '200':
-            description: OK
+            description: ''
             schema:
               type: object
         tags:
@@ -413,13 +516,13 @@
     '/users/{id}':
       get:
         parameters:
-          - type: integer
+          - type: number
             name: id
             required: true
             in: path
         responses:
           '200':
-            description: OK
+            description: ''
             schema:
               type: object
         tags:
@@ -433,13 +536,13 @@
     '/users/{id}/tokens':
       get:
         parameters:
-          - type: integer
+          - type: number
             name: id
             required: true
             in: path
         responses:
           '200':
-            description: OK
+            description: ''
             schema:
               type: object
         tags:
@@ -450,13 +553,8 @@
           - application/json
         consumes:
           - application/json
-    '/users/{id}/tokens/new':
       post:
         parameters:
-          - type: integer
-            name: id
-            required: true
-            in: path
           - name: CreateSubSystemPermissionDto
             required: true
             in: body
@@ -465,6 +563,97 @@
         responses:
           '201':
             description: ''
+            schema:
+              type: object
+        tags:
+          - users
+        security:
+          - bearer: []
+        produces:
+          - application/json
+        consumes:
+          - application/json
+    '/users/{id}/logs':
+      get:
+        parameters:
+          - type: string
+            name: orderBy
+            required: false
+            in: query
+            description: On which field to order on.
+          - type: string
+            name: orderDirection
+            required: false
+            in: query
+            description: 'The order direction, either ascending or descending.'
+            enum:
+              - ASC
+              - DESC
+          - type: string
+            name: pageSize
+            required: false
+            in: query
+            description: The maximum amount of logs in each result.
+            default: '25'
+          - type: string
+            name: pageNumber
+            required: false
+            in: query
+            description: 'The current page, i.e. the offset in the result set based on pageSize.'
+            default: '1'
+          - type: string
+            name: logId
+            required: false
+            in: query
+            description: The id of the log.
+          - type: string
+            name: searchterm
+            required: false
+            in: query
+            description: Search for a term that exists in the title field of a log.
+          - type: string
+            name: subtype
+            required: false
+            in: query
+            description: The subtype of the log.
+            enum:
+              - run
+              - subsystem
+              - announcement
+              - intervention
+              - comment
+          - type: string
+            name: origin
+            required: false
+            in: query
+            description: The origin/creator of the log.
+            enum:
+              - human
+              - process
+          - type: string
+            name: startCreationTime
+            required: false
+            in: query
+            description: The lower bound of the creation time filter range.
+          - type: string
+            name: endCreationTime
+            required: false
+            in: query
+            description: The upper bound of the creation time filter range.
+          - type: user
+            name: user
+            required: false
+            in: query
+            description: The author of the log..
+          - type: number
+            name: id
+            required: true
+            in: path
+        responses:
+          '200':
+            description: ''
+            schema:
+              type: object
         tags:
           - users
         security:
@@ -477,15 +666,13 @@
       get:
         summary: Authenticate a user by giving an Authorization Grant.
         parameters:
-          - type: string
-            name: grant
+          - name: grant
             required: true
             in: query
+            type: ''
         responses:
           '200':
             description: User has successfully authenticated and a JWT has been given as a response.
-            schema:
-              type: object
           '401':
             description: User is unauthorized due to an invalid Authorization Grant.
           '422':
@@ -496,17 +683,38 @@
           - application/json
         consumes:
           - application/json
-    /profile:
+    /user/profile:
       get:
         summary: Returns the user's profile
         parameters: []
         responses:
           '200':
             description: User successfully received profile information.
-            schema:
-              type: object
+          '400':
+            description: No JWT could be found in headers.
           '401':
             description: User is unauthorized
+        tags:
+          - authentication
+        produces:
+          - application/json
+        consumes:
+          - application/json
+    /test-token:
+      get:
+        summary: Returns a JWT for authorization when running end-to-end tests.
+        parameters:
+          - name: hashedSecret
+            required: false
+            in: query
+            type: ''
+        responses:
+          '200':
+            description: The hashed secret given matches the secret in the environment and a JWT is returned.
+          '400':
+            description: The required query parameter 'hashedSecret' is missing.
+          '401':
+            description: Hashed secret was not accepted
         tags:
           - authentication
         produces:
@@ -523,9 +731,7 @@
             description: In which time range the logs of eachsubsystem should be posted
         responses:
           '200':
-            description: OK
-            schema:
-              type: object
+            description: ''
         tags:
           - overview
         security:
@@ -534,172 +740,131 @@
           - application/json
         consumes:
           - application/json
+    /setting:
+      get:
+        responses:
+          '200':
+            description: ''
+        tags:
+          - setting
+        produces:
+          - application/json
+        consumes:
+          - application/json
   definitions:
+    Date:
+      type: object
+      properties: {}
     CreateRunDto:
       type: object
       properties:
-        timeO2Start:
-          type: string
-          format: date-time
-          example: '2018-11-26T16:43:22.279Z'
-        timeTrgStart:
-          type: string
-          format: date-time
-          example: '2018-11-26T16:43:22.279Z'
-        timeO2End:
-          type: string
-          format: date-time
-          example: '2018-11-26T16:43:22.279Z'
-        timeTrgEnd:
-          type: string
-          format: date-time
-          example: '2018-11-26T16:43:22.279Z'
-        runType:
-          type: string
-          example:
-            - test
-          description: What kind of run.
-        runQuality:
-          type: string
-          example:
-            - test
-          description: The quality of the run.
-        activityId:
-          type: string
-          example: Sl4e12ofb83no92ns
-          description: The id of the activity.
-        nDetectors:
-          type: integer
-          example: 16
-          description: Number of detectors during run.
-        nFlps:
-          type: integer
-          example: 7
-          description: Number of FLPs that computed data
-        nEpns:
-          type: integer
-          example: 8
-          description: Number of EPNs that stored data
-        nTimeframes:
-          type: integer
-          example: 2
-          description: Number of timeframes
-        nSubtimeframes:
-          type: integer
-          example: 4
-          description: Number of subtimeframes
-        bytesReadOut:
-          type: integer
-          example: 5
-          description: Amount of bytes read out
-        bytesTimeframeBuilder:
-          type: integer
-          example: 12
-          description: What builder was used.
-      required:
-        - timeO2Start
-        - timeTrgStart
-        - timeO2End
-        - timeTrgEnd
-        - runType
-        - runQuality
-        - activityId
-        - nDetectors
-        - nFlps
-        - nEpns
-        - nTimeframes
-        - nSubtimeframes
-        - bytesReadOut
-        - bytesTimeframeBuilder
-    CreateRunResultDto:
-      type: object
-      properties:
-        timeO2Start:
-          type: string
-          format: date-time
-          example: '2018-11-26T16:43:22.279Z'
-        timeTrgStart:
-          type: string
-          format: date-time
-          example: '2018-11-26T16:43:22.279Z'
-        timeO2End:
-          type: string
-          format: date-time
-          example: '2018-11-26T16:43:22.279Z'
-        timeTrgEnd:
-          type: string
-          format: date-time
-          example: '2018-11-26T16:43:22.279Z'
-        runType:
-          type: string
-          example:
-            - test
-          description: What kind of run.
-        runQuality:
-          type: string
-          example:
-            - test
-          description: The quality of the run.
-        activityId:
-          type: string
-          example: Sl4e12ofb83no92ns
-          description: The id of the activity.
-        nDetectors:
-          type: integer
-          example: 16
-          description: Number of detectors during run.
-        nFlps:
-          type: integer
-          example: 7
-          description: Number of FLPs that computed data
-        nEpns:
-          type: integer
-          example: 8
-          description: Number of EPNs that stored data
-        nTimeframes:
-          type: integer
-          example: 2
-          description: Number of timeframes
-        nSubtimeframes:
-          type: integer
-          example: 4
-          description: Number of subtimeframes
-        bytesReadOut:
-          type: integer
-          example: 5
-          description: Amount of bytes read out
-        bytesTimeframeBuilder:
-          type: integer
-          example: 12
-          description: What builder was used.
         runNumber:
-          type: integer
-          example: 34
-          description: The run number.
+          type: number
+          example: 1
+          description: The id of the run
+        O2StartTime:
+          title: Date
+          allOf:
+            - $ref: '#/definitions/Date'
+            - example: '2019-01-11T15:08:00.059Z'
+              description: Current Date
+        TrgStartTime:
+          title: Date
+          allOf:
+            - $ref: '#/definitions/Date'
+            - example: '2019-01-11T15:08:00.059Z'
+              description: Current Date
+        runType:
+          type: string
+          example:
+            - COSMICS
+          description: What kind of run.
+          enum:
+            - PHYSICS
+            - COSMICS
+            - TECHNICAL
+        activityId:
+          type: string
+          example: Sl4e12ofb83no92ns
+          description: The id of the activity.
+        nDetectors:
+          type: number
+          example: 16
+          description: Number of detectors during run.
+        nFlps:
+          type: number
+          example: 7
+          description: Number of FLPs that computed data
+        nEpns:
+          type: number
+          example: 8
+          description: Number of EPNs that stored data
       required:
-        - timeO2Start
-        - timeTrgStart
-        - timeO2End
-        - timeTrgEnd
+        - runNumber
+        - O2StartTime
+        - TrgStartTime
         - runType
-        - runQuality
         - activityId
         - nDetectors
         - nFlps
         - nEpns
-        - nTimeframes
-        - nSubtimeframes
-        - bytesReadOut
-        - bytesTimeframeBuilder
     LinkLogToRunDto:
       type: object
       properties:
         logId:
-          type: integer
+          type: number
           example: '1'
           description: The id of the log to link to the run.
       required:
         - logId
+    PatchRunDto:
+      type: object
+      properties:
+        TrgEndTime:
+          title: Date
+          allOf:
+            - $ref: '#/definitions/Date'
+            - example: '2019-01-11T15:08:00.453Z'
+              description: Current Date at end of run
+        O2EndTime:
+          title: Date
+          allOf:
+            - $ref: '#/definitions/Date'
+            - example: '2019-01-11T15:08:00.453Z'
+              description: Current Date at end of run
+        runQuality:
+          type: string
+          example:
+            - Good
+          description: The quality of the run.
+          enum:
+            - Good
+            - Bad
+            - Unknown
+        nTimeframes:
+          type: number
+          example: 2
+          description: Number of timeframes
+        nSubtimeframes:
+          type: number
+          example: 4
+          description: Number of subtimeframes
+        bytesReadOut:
+          type: number
+          example: 5
+          description: Amount of bytes read out
+        bytesTimeframeBuilder:
+          type: number
+          example: 12
+          description: What builder was used.
+      required:
+        - TrgEndTime
+        - O2EndTime
+        - runQuality
+        - nTimeframes
+        - nSubtimeframes
+        - bytesReadOut
+        - bytesTimeframeBuilder
     CreateLogDto:
       type: object
       properties:
@@ -724,7 +889,7 @@
           type: string
           example: log for run 12
           description: describes the log in short
-        text:
+        body:
           type: string
           example: lorum ipsum
           description: describes the log in depth
@@ -736,54 +901,120 @@
             type: string
         runs:
           type: array
-          example: '8'
+          example:
+            - 1
           description: Attached run numbers of this log
           items:
             type: string
+        user:
+          type: number
+          example: '1'
+          description: Author of log
       required:
         - subtype
         - origin
         - title
-        - text
+        - body
         - attachments
         - runs
+        - user
     LinkRunToLogDto:
       type: object
       properties:
         runNumber:
-          type: integer
+          type: number
           example: '1'
           description: The id of the run to link to the log.
       required:
         - runNumber
+    CreateFlpDto:
+      type: object
+      properties:
+        flpName:
+          type: string
+          example: FLP-TPC-1
+          description: Name of the flp
+        flpHostname:
+          type: string
+          example: someserver.cern.ch
+          description: 'Name of the hostmachine, where the flp comes from.'
+        run:
+          type: number
+          example: 1
+          description: Attached run numbers of this log
+      required:
+        - flpName
+        - flpHostname
+        - run
+    PatchFlpDto:
+      type: object
+      properties:
+        nSubTimeframes:
+          type: number
+          example: 50
+          description: Number of subtimeframes processed in this FLP. Updated regularly.
+        equipmentBytes:
+          type: number
+          example: 50
+          description: data volume out from the readout 'equipment' component in bytes. Can reach PetaBytes.Updated regularly.
+        recordingBytes:
+          type: number
+          example: 50
+          description: data volume out from the readout 'recording' component in bytes. Can reach PetaBytes. Updated regularly.
+        fairMQBytes:
+          type: number
+          example: 50
+          description: data volume out from the readout 'fmq' component in bytes. Can reach PetaBytes. Updated regularly.
+      required:
+        - nSubTimeframes
+        - equipmentBytes
+        - recordingBytes
+        - fairMQBytes
     CreateAttachmentDto:
       type: object
       properties:
         title:
           type: string
-          example: run
-          description: What kind of log is it?
+          example: This is a very important file.
+          description: What is the name of the file?
+        fileName:
+          type: string
+          example: VeryImportantDocument.txt
+          description: Name of the uploaded file.
+        fileSize:
+          type: number
+          example: 42
+          description: File size in bytes.
         fileMime:
           type: string
-          example: run
-          description: What kind of log is it?
+          example: text/plain
+          description: What kind of file is it?
+        contentType:
+          type: string
+          example: 'content-type: text/plain'
+          description: Content type header containing file mime
         fileData:
           type: string
-          example: '23144132412314344'
-          description: What kind of log is it?
+          example: VmVyeSBpbXBvcnRhbnQK
+          description: The base64 encoded file data.
         logId:
-          type: integer
+          type: number
           example: 1
           description: The id of the corresponding Log
       required:
         - title
+        - fileName
+        - fileSize
         - fileMime
+        - contentType
         - fileData
         - logId
     User:
-      type: integer
+      type: object
+      properties: {}
     SubSystem:
-      type: integer
+      type: object
+      properties: {}
     CreateSubSystemPermissionDto:
       type: object
       properties:
