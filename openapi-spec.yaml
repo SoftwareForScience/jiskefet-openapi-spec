@@ -30,7 +30,6 @@
             description: ''
             schema:
               type: object
-
         tags:
           - runs
         security:
@@ -150,7 +149,8 @@
     '/runs/{id}':
       get:
         parameters:
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -174,7 +174,8 @@
             in: body
             schema:
               $ref: '#/definitions/PatchRunDto'
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -199,7 +200,8 @@
             in: body
             schema:
               $ref: '#/definitions/LinkLogToRunDto'
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -324,7 +326,8 @@
     '/logs/{id}':
       get:
         parameters:
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -349,7 +352,8 @@
             in: body
             schema:
               $ref: '#/definitions/LinkRunToLogDto'
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -373,7 +377,8 @@
             name: name
             required: true
             in: path
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -401,7 +406,8 @@
             name: name
             required: true
             in: path
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -463,7 +469,8 @@
     '/attachments/{id}/logs':
       get:
         parameters:
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -496,7 +503,8 @@
     '/subsystems/{id}':
       get:
         parameters:
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -516,7 +524,8 @@
     '/users/{id}':
       get:
         parameters:
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -536,7 +545,8 @@
     '/users/{id}/tokens':
       get:
         parameters:
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -555,7 +565,8 @@
           - application/json
       post:
         parameters:
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -649,7 +660,8 @@
             required: false
             in: query
             description: The author of the log..
-          - type: number
+          - type: integer
+            format: int64
             name: id
             required: true
             in: path
@@ -756,9 +768,6 @@
         consumes:
           - application/json
   definitions:
-    Date:
-      type: object
-      properties: {}
     CreateRunDto:
       type: object
       properties:
@@ -767,17 +776,13 @@
           example: 1
           description: The id of the run
         O2StartTime:
-          title: Date
-          allOf:
-            - $ref: '#/definitions/Date'
-            - example: '2019-01-11T15:08:00.059Z'
-              description: Current Date
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
         TrgStartTime:
-          title: Date
-          allOf:
-            - $ref: '#/definitions/Date'
-            - example: '2019-01-11T15:08:00.059Z'
-              description: Current Date
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
         runType:
           type: string
           example:
@@ -825,17 +830,13 @@
       type: object
       properties:
         TrgEndTime:
-          title: Date
-          allOf:
-            - $ref: '#/definitions/Date'
-            - example: '2019-01-11T15:08:00.453Z'
-              description: Current Date at end of run
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
         O2EndTime:
-          title: Date
-          allOf:
-            - $ref: '#/definitions/Date'
-            - example: '2019-01-11T15:08:00.453Z'
-              description: Current Date at end of run
+          type: string
+          format: date-time
+          example: '2018-11-26T16:43:22.279Z'
         runQuality:
           type: string
           example:
