@@ -303,7 +303,7 @@
             required: false
             in: query
             description: The upper bound of the creation time filter range.
-          - type: user
+          - type: string
             name: user
             required: false
             in: query
@@ -555,6 +555,10 @@
           - application/json
       post:
         parameters:
+          - type: number
+            name: id
+            required: true
+            in: path
           - name: CreateSubSystemPermissionDto
             required: true
             in: body
@@ -640,7 +644,7 @@
             required: false
             in: query
             description: The upper bound of the creation time filter range.
-          - type: user
+          - type: string
             name: user
             required: false
             in: query
@@ -669,7 +673,7 @@
           - name: grant
             required: true
             in: query
-            type: ''
+            type: string
         responses:
           '200':
             description: User has successfully authenticated and a JWT has been given as a response.
@@ -707,7 +711,7 @@
           - name: hashedSecret
             required: false
             in: query
-            type: ''
+            type: string
         responses:
           '200':
             description: The hashed secret given matches the secret in the environment and a JWT is returned.
