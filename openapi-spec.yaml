@@ -772,7 +772,8 @@
       type: object
       properties:
         runNumber:
-          type: number
+          type: integer
+          format: int64
           example: 1
           description: The id of the run
         O2StartTime:
@@ -797,15 +798,18 @@
           example: Sl4e12ofb83no92ns
           description: The id of the activity.
         nDetectors:
-          type: number
+          type: integer
+          format: int64
           example: 16
           description: Number of detectors during run.
         nFlps:
-          type: number
+          type: integer
+          format: int64
           example: 7
           description: Number of FLPs that computed data
         nEpns:
-          type: number
+          type: integer
+          format: int64
           example: 8
           description: Number of EPNs that stored data
       required:
@@ -821,7 +825,8 @@
       type: object
       properties:
         logId:
-          type: number
+          type: integer
+          format: int64
           example: '1'
           description: The id of the log to link to the run.
       required:
@@ -847,19 +852,23 @@
             - Bad
             - Unknown
         nTimeframes:
-          type: number
+          type: integer
+          format: int64
           example: 2
           description: Number of timeframes
         nSubtimeframes:
-          type: number
+          type: integer
+          format: int64
           example: 4
           description: Number of subtimeframes
         bytesReadOut:
-          type: number
+          type: integer
+          format: int64
           example: 5
           description: Amount of bytes read out
         bytesTimeframeBuilder:
-          type: number
+          type: integer
+          format: int64
           example: 12
           description: What builder was used.
       required:
@@ -912,7 +921,8 @@
           items:
             type: string
         user:
-          type: number
+          type: integer
+          format: int64
           example: '1'
           description: Author of log
       required:
@@ -927,7 +937,8 @@
       type: object
       properties:
         runNumber:
-          type: number
+          type: integer
+          format: int64
           example: '1'
           description: The id of the run to link to the log.
       required:
@@ -944,7 +955,8 @@
           example: someserver.cern.ch
           description: 'Name of the hostmachine, where the flp comes from.'
         run:
-          type: number
+          type: integer
+          format: int64
           example: 1
           description: Attached run numbers of this log
       required:
@@ -955,19 +967,23 @@
       type: object
       properties:
         nSubTimeframes:
-          type: number
+          type: integer
+          format: int64
           example: 50
           description: Number of subtimeframes processed in this FLP. Updated regularly.
         equipmentBytes:
-          type: number
+          type: integer
+          format: int64
           example: 50
           description: data volume out from the readout 'equipment' component in bytes. Can reach PetaBytes.Updated regularly.
         recordingBytes:
-          type: number
+          type: integer
+          format: int64
           example: 50
           description: data volume out from the readout 'recording' component in bytes. Can reach PetaBytes. Updated regularly.
         fairMQBytes:
-          type: number
+          type: integer
+          format: int64
           example: 50
           description: data volume out from the readout 'fmq' component in bytes. Can reach PetaBytes. Updated regularly.
       required:
@@ -987,7 +1003,8 @@
           example: VeryImportantDocument.txt
           description: Name of the uploaded file.
         fileSize:
-          type: number
+          type: integer
+          format: int64
           example: 42
           description: File size in bytes.
         fileMime:
@@ -1003,7 +1020,8 @@
           example: VmVyeSBpbXBvcnRhbnQK
           description: The base64 encoded file data.
         logId:
-          type: number
+          type: integer
+          format: int64
           example: 1
           description: The id of the corresponding Log
       required:
@@ -1024,17 +1042,9 @@
       type: object
       properties:
         user:
-          title: User
-          allOf:
-            - $ref: '#/definitions/User'
-            - example: 8
-              description: Id of the user.
+          type: object
         subsystem:
-          title: SubSystem
-          allOf:
-            - $ref: '#/definitions/SubSystem'
-            - example: 8
-              description: Id of the subsystem.
+          type: object
         isMember:
           type: boolean
           example: true
