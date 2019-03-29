@@ -80,63 +80,54 @@ paths:
           in: query
           description: The lower bound of the timeO2Start filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endTimeO2Start
           required: false
           in: query
           description: The upper bound of the timeO2Start filter range.
           format: date-time
-          isArray: false
         - type: string
           name: startTimeTrgStart
           required: false
           in: query
           description: The lower bound of the timeTrgStart filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endTimeTrgStart
           required: false
           in: query
           description: The upper bound of the timeTrgStart filter range.
           format: date-time
-          isArray: false
         - type: string
           name: startTimeTrgEnd
           required: false
           in: query
           description: The lower bound of the timeTrgEnd filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endTimeTrgEnd
           required: false
           in: query
           description: The upper bound of the timeTrgEnd filter range.
           format: date-time
-          isArray: false
         - type: string
           name: startTimeO2End
           required: false
           in: query
           description: The lower bound of the timeO2End filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endTimeO2End
           required: false
           in: query
           description: The upper bound of the timeO2End filter range.
           format: date-time
-          isArray: false
         - type: string
           name: activityId
           required: false
           in: query
           description: The id of the activity.
           format: date-time
-          isArray: false
         - type: string
           name: runType
           required: false
