@@ -823,9 +823,6 @@ definitions:
       - nDetectors
       - nFlps
       - nEpns
-  Date:
-    type: object
-    properties: {}
   Log:
     type: object
     properties:
@@ -845,7 +842,8 @@ definitions:
         type: integer
         format: int64
       announcementValidUntil:
-        $ref: '#/definitions/Date'
+        type: string
+        format: date-time
       commentFkParentLogId:
         type: integer
         format: int64
@@ -953,17 +951,15 @@ definitions:
     type: object
     properties:
       TrgEndTime:
-        title: Date
-        allOf:
-          - $ref: '#/definitions/Date'
-          - example: '2019-01-11T15:07:52.513Z'
-            description: Current Date at end of run
+        type: string
+        format: date-time
+        example: '2019-01-11T15:07:52.513Z'
+        description: Current Date at end of run
       O2EndTime:
-        title: Date
-        allOf:
-          - $ref: '#/definitions/Date'
-          - example: '2019-01-11T15:07:52.514Z'
-            description: Current Date at end of run
+        type: string
+        format: date-time
+        example: '2019-01-11T15:07:52.514Z'
+        description: Current Date at end of run
       runQuality:
         type: string
         example:
