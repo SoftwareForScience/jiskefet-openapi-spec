@@ -22,6 +22,7 @@ sed -i '/isArray: false/d' ./openapi-spec.yaml
 The NodeJS generation also contains errors due to incomplete/incorrect decorators in the back-end code.
 The following are known issues:
  - Some endpoints (such as `runs/get`, `logs/get`) don't provide a schema for the response.
+ - The response specification of `runs/post` does not match what's provided by the server.
  - Various numbers (such as IDs and counters) that should be specified as `type: integer` with `format: int64`,
    are instead specified as `type: number`, which is interpreted as a floating point by the client code generator.
  - In `runs/get` activityId is specified with `format: date-time` (it should have no format).

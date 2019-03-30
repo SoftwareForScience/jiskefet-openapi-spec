@@ -30,7 +30,7 @@ paths:
         '200':
           description: Succesfully created a Run.
           schema:
-            $ref: '#/definitions/Run'
+            type: object
         '409':
           description: There already exist a Run with this Run number.
       tags:
@@ -143,6 +143,8 @@ paths:
       responses:
         '200':
           description: Succesfully returned Runs.
+          schema:
+            type: object
         '204':
           description: There are no Runs.
       tags:
