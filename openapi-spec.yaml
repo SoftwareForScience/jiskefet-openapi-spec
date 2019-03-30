@@ -57,19 +57,22 @@ paths:
           enum:
             - ASC
             - DESC
-        - type: string
+        - type: integer
+          format: int64
           name: pageSize
           required: false
           in: query
           description: The maximum amount of logs in each result.
           default: '25'
-        - type: string
+        - type: integer
+          format: int64
           name: pageNumber
           required: false
           in: query
           description: 'The current page, i.e. the offset in the result set based on pageSize.'
           default: '1'
-        - type: string
+        - type: integer
+          format: int64
           name: runNumber
           required: false
           in: query
@@ -127,7 +130,6 @@ paths:
           required: false
           in: query
           description: The id of the activity.
-          format: date-time
         - type: string
           name: runType
           required: false
@@ -155,7 +157,8 @@ paths:
     get:
       summary: Returns a specific Run.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -180,7 +183,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/PatchRunDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -204,7 +208,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/LinkLogToRunDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -257,19 +262,22 @@ paths:
           enum:
             - ASC
             - DESC
-        - type: string
+        - type: integer
+          format: int64
           name: pageSize
           required: false
           in: query
           description: The maximum amount of logs in each result.
           default: '25'
-        - type: string
+        - type: integer
+          format: int64
           name: pageNumber
           required: false
           in: query
           description: 'The current page, i.e. the offset in the result set based on pageSize.'
           default: '1'
-        - type: string
+        - type: integer
+          format: int64
           name: logId
           required: false
           in: query
@@ -308,7 +316,8 @@ paths:
           required: false
           in: query
           description: The upper bound of the creation time filter range.
-        - type: user
+        - type: integer
+          format: int64
           name: user
           required: false
           in: query
@@ -328,7 +337,8 @@ paths:
     get:
       summary: Returns a specific Log.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -352,7 +362,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/LinkRunToLogDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -375,7 +386,8 @@ paths:
           name: name
           required: true
           in: path
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -402,7 +414,8 @@ paths:
           name: name
           required: true
           in: path
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -461,7 +474,8 @@ paths:
     get:
       summary: Returns Attachments that belong to a specific Log.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -494,7 +508,8 @@ paths:
     get:
       summary: Returns a specific Subsystem.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -512,7 +527,8 @@ paths:
   '/users/{id}':
     get:
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -531,7 +547,8 @@ paths:
     get:
       summary: Returns all generated Tokens for a specific User.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -554,6 +571,11 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/CreateSubSystemPermissionDto'
+        - name: id
+          type: integer
+          format: int64
+          required: true
+          in: path
       responses:
         '200':
           description: Succesfully created a Token.
@@ -633,12 +655,13 @@ paths:
           required: false
           in: query
           description: The upper bound of the creation time filter range.
-        - type: user
+        - type: string
           name: user
           required: false
           in: query
           description: The author of the log..
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -660,7 +683,7 @@ paths:
         - name: grant
           required: true
           in: query
-          type: ''
+          type: string
       responses:
         '200':
           description: User has successfully authenticated and a JWT has been given as a response.
@@ -698,7 +721,7 @@ paths:
         - name: hashedSecret
           required: false
           in: query
-          type: ''
+          type: string
       responses:
         '200':
           description: The hashed secret given matches the secret in the environment and a JWT is returned.
@@ -749,7 +772,8 @@ definitions:
     type: object
     properties:
       runNumber:
-        type: number
+        type: integer
+        format: int64
         example: 1
         description: The id of the run
       O2StartTime:
@@ -776,15 +800,18 @@ definitions:
         example: Sl4e12ofb83no92ns
         description: The id of the activity.
       nDetectors:
-        type: number
+        type: integer
+        format: int64
         example: 16
         description: Number of detectors during run.
       nFlps:
-        type: number
+        type: integer
+        format: int64
         example: 7
         description: Number of FLPs that computed data
       nEpns:
-        type: number
+        type: integer
+        format: int64
         example: 8
         description: Number of EPNs that stored data
     required:
@@ -803,7 +830,8 @@ definitions:
     type: object
     properties:
       logId:
-        type: number
+        type: integer
+        format: int64
       origin:
         type: string
       creationTime:
@@ -814,13 +842,16 @@ definitions:
       body:
         type: string
       subsystemFkSubsystemId:
-        type: number
+        type: integer
+        format: int64
       announcementValidUntil:
         $ref: '#/definitions/Date'
       commentFkParentLogId:
-        type: number
+        type: integer
+        format: int64
       commentFkRootLogId:
-        type: number
+        type: integer
+        format: int64
       runs:
         type: array
         items:
@@ -836,14 +867,15 @@ definitions:
     type: object
     properties:
       run:
-        type: ''
+        type: object
     required:
       - run
   Run:
     type: object
     properties:
       runNumber:
-        type: number
+        type: integer
+        format: int64
       O2StartTime:
         type: string
         format: date-time
@@ -867,19 +899,26 @@ definitions:
         items:
           type: string
       nDetectors:
-        type: number
+        type: integer
+        format: int64
       nFlps:
-        type: number
+        type: integer
+        format: int64
       nEpns:
-        type: number
+        type: integer
+        format: int64
       nTimeframes:
-        type: number
+        type: integer
+        format: int64
       nSubtimeframes:
-        type: number
+        type: integer
+        format: int64
       bytesReadOut:
-        type: number
+        type: integer
+        format: int64
       bytesTimeframeBuilder:
-        type: number
+        type: integer
+        format: int64
       logs:
         type: array
         minProperties: 1
@@ -904,7 +943,8 @@ definitions:
     type: object
     properties:
       logId:
-        type: number
+        type: integer
+        format: int64
         example: '1'
         description: The id of the log to link to the run.
     required:
@@ -979,7 +1019,8 @@ definitions:
         items:
           type: string
       user:
-        type: number
+        type: integer
+        format: int64
         example: '1'
         description: Author of log
     required:
@@ -994,7 +1035,8 @@ definitions:
     type: object
     properties:
       runNumber:
-        type: number
+        type: integer
+        format: int64
         example: '1'
         description: The id of the run to link to the log.
     required:
@@ -1011,7 +1053,8 @@ definitions:
         example: someserver.cern.ch
         description: 'Name of the hostmachine, where the flp comes from.'
       run:
-        type: number
+        type: integer
+        format: int64
         example: 1
         description: Attached run numbers of this log
     required:
@@ -1022,19 +1065,23 @@ definitions:
     type: object
     properties:
       nSubTimeframes:
-        type: number
+        type: integer
+        format: int64
         example: 50
         description: Number of subtimeframes processed in this FLP. Updated regularly.
       equipmentBytes:
-        type: number
+        type: integer
+        format: int64
         example: 50
         description: data volume out from the readout 'equipment' component in bytes. Can reach PetaBytes.Updated regularly.
       recordingBytes:
-        type: number
+        type: integer
+        format: int64
         example: 50
         description: data volume out from the readout 'recording' component in bytes. Can reach PetaBytes. Updated regularly.
       fairMQBytes:
-        type: number
+        type: integer
+        format: int64
         example: 50
         description: data volume out from the readout 'fmq' component in bytes. Can reach PetaBytes. Updated regularly.
     required:
@@ -1054,7 +1101,8 @@ definitions:
         example: VeryImportantDocument.txt
         description: Name of the uploaded file.
       fileSize:
-        type: number
+        type: integer
+        format: int64
         example: 42
         description: File size in bytes.
       fileMime:
@@ -1070,7 +1118,8 @@ definitions:
         example: VmVyeSBpbXBvcnRhbnQK
         description: The base64 encoded file data.
       logId:
-        type: number
+        type: integer
+        format: int64
         example: 1
         description: The id of the corresponding Log
     required:

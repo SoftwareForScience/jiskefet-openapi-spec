@@ -23,7 +23,9 @@ The NodeJS generation also contains errors due to incomplete/incorrect decorator
 The following are known issues:
  - Various numbers (such as IDs and counters) that should be specified as `type: integer` with `format: int64`,
    are instead specified as `type: number`, which is interpreted as a floating point by the client code generator.
+ - In `runs/get` activityId is specified with `format: date-time` (it should have no format).
  - Some parameters that should be int64s, are specified as strings (such as the pageSize, pageNumber and runNumber of `runs/get`)
  - Various user & auth related issues. The affected endpoints are currently not used by the C++/Go clients, fortunately.
-   - Instead of an integer ID, `type: user` is specified, which is not a valid type.
+   - In some places, instead of an int64 integer ID, `type: user` is specified, which is not a valid type.
    - The endpoint `/users/{id}/tokens` does not list a parameter for the ID, making it unusable.
+   - In some places, `type: ''` is specified, which is not a valid type. These should probably be `type: string`
