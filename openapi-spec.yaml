@@ -27,12 +27,12 @@ paths:
           schema:
             $ref: '#/definitions/CreateRunDto'
       responses:
-        '200':
+        '201':
           description: Succesfully created a Run.
           schema:
-            type: object
+            $ref: '#/definitions/Run'
         '409':
-          description: There already exist a Run with this Run number.
+          description: A Run already exists with given Run number.
       tags:
         - runs
       security:
@@ -58,73 +58,84 @@ paths:
             - ASC
             - DESC
         - type: integer
-          format: int64
           name: pageSize
           required: false
           in: query
           description: The maximum amount of logs in each result.
-          default: '25'
-        - type: integer
+          default: 25
           format: int64
+          isArray: false
+        - type: integer
           name: pageNumber
           required: false
           in: query
           description: 'The current page, i.e. the offset in the result set based on pageSize.'
-          default: '1'
-        - type: integer
+          default: 1
           format: int64
+          isArray: false
+        - type: integer
           name: runNumber
           required: false
           in: query
           description: The id of the log.
+          format: int64
+          isArray: false
         - type: string
           name: startTimeO2Start
           required: false
           in: query
           description: The lower bound of the timeO2Start filter range.
           format: date-time
+          isArray: false
         - type: string
           name: endTimeO2Start
           required: false
           in: query
           description: The upper bound of the timeO2Start filter range.
           format: date-time
+          isArray: false
         - type: string
           name: startTimeTrgStart
           required: false
           in: query
           description: The lower bound of the timeTrgStart filter range.
           format: date-time
+          isArray: false
         - type: string
           name: endTimeTrgStart
           required: false
           in: query
           description: The upper bound of the timeTrgStart filter range.
           format: date-time
+          isArray: false
         - type: string
           name: startTimeTrgEnd
           required: false
           in: query
           description: The lower bound of the timeTrgEnd filter range.
           format: date-time
+          isArray: false
         - type: string
           name: endTimeTrgEnd
           required: false
           in: query
           description: The upper bound of the timeTrgEnd filter range.
           format: date-time
+          isArray: false
         - type: string
           name: startTimeO2End
           required: false
           in: query
           description: The lower bound of the timeO2End filter range.
           format: date-time
+          isArray: false
         - type: string
           name: endTimeO2End
           required: false
           in: query
           description: The upper bound of the timeO2End filter range.
           format: date-time
+          isArray: false
         - type: string
           name: activityId
           required: false
@@ -135,6 +146,10 @@ paths:
           required: false
           in: query
           description: The type of the run.
+          enum:
+            - PHYSICS
+            - COSMICS
+            - TECHNICAL
         - type: string
           name: runQuality
           required: false
@@ -143,10 +158,8 @@ paths:
       responses:
         '200':
           description: Succesfully returned Runs.
-          schema:
-            type: object
-        '204':
-          description: There are no Runs.
+        '404':
+          description: There are no Runs found with given query params.
       tags:
         - runs
       security:
@@ -159,16 +172,15 @@ paths:
     get:
       summary: Returns a specific Run.
       parameters:
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
           description: Succesfully returned a specific Run.
-        '204':
-          description: There is no Run with the give Run number.
+        '404':
+          description: There is no Run with the given Run number.
       tags:
         - runs
       security:
@@ -185,8 +197,7 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/PatchRunDto'
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
@@ -210,14 +221,17 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/LinkLogToRunDto'
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
       responses:
-        '200':
-          description: Succesfully linked a Log to a Run.
+        '204':
+          description: The Log is successfully linked to the Run.
+        '404':
+          description: The Log or Run does not exist.
+        '409':
+          description: The Log is already linked to the Run.
       tags:
         - runs
       security:
@@ -236,10 +250,12 @@ paths:
           schema:
             $ref: '#/definitions/CreateLogDto'
       responses:
-        '200':
+        '201':
           description: Succesfully created a Log
           schema:
             $ref: '#/definitions/Log'
+        '409':
+          description: A Log already exists with this ID.
       tags:
         - logs
       security:
@@ -265,25 +281,28 @@ paths:
             - ASC
             - DESC
         - type: integer
-          format: int64
           name: pageSize
           required: false
           in: query
           description: The maximum amount of logs in each result.
-          default: '25'
-        - type: integer
+          default: 25
           format: int64
+          isArray: false
+        - type: integer
           name: pageNumber
           required: false
           in: query
           description: 'The current page, i.e. the offset in the result set based on pageSize.'
-          default: '1'
-        - type: integer
+          default: 1
           format: int64
+          isArray: false
+        - type: integer
           name: logId
           required: false
           in: query
           description: The id of the log.
+          format: int64
+          isArray: false
         - type: string
           name: searchterm
           required: false
@@ -313,20 +332,53 @@ paths:
           required: false
           in: query
           description: The lower bound of the creation time filter range.
+          format: date-time
+          isArray: false
         - type: string
           name: endCreationTime
           required: false
           in: query
           description: The upper bound of the creation time filter range.
+          format: date-time
+          isArray: false
         - type: integer
-          format: int64
           name: user
           required: false
           in: query
           description: The author of the log..
+          format: int64
+          isArray: false
       responses:
         '200':
-          description: Succesfully returns Logs.
+          description: Succesfully returned Logs.
+        '404':
+          description: There are no Logs.
+      tags:
+        - logs
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+  '/logs/{id}/attachments':
+    post:
+      summary: Creates a Attachment for a specific Log.
+      parameters:
+        - name: CreateAttachmentDto
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateAttachmentDto'
+        - type: number
+          name: id
+          required: true
+          in: path
+      responses:
+        '201':
+          description: Succesfully created an Attachment.
+          schema:
+            $ref: '#/definitions/Attachment'
       tags:
         - logs
       security:
@@ -339,14 +391,15 @@ paths:
     get:
       summary: Returns a specific Log.
       parameters:
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
           description: Succesfully returns a specific Log.
+        '404':
+          description: There is no Log with this ID.
       tags:
         - logs
       security:
@@ -364,14 +417,54 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/LinkRunToLogDto'
-        - type: integer
-          format: int64
+        - type: number
+          name: id
+          required: true
+          in: path
+      responses:
+        '204':
+          description: Succesfully linked a Run to a Log.
+        '404':
+          description: The Run or Log does not exist.
+        '409':
+          description: The Run is already linked to the Log.
+      tags:
+        - logs
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+  '/logs/{id}/threads':
+    get:
+      parameters:
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
-          description: Succesfully linked a Run to a Log.
+          description: ''
+      tags:
+        - logs
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+  /logs/threads:
+    post:
+      parameters:
+        - name: CreateCommentDto
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/CreateCommentDto'
+      responses:
+        '201':
+          description: ''
       tags:
         - logs
       security:
@@ -388,14 +481,15 @@ paths:
           name: name
           required: true
           in: path
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
-          description: Succesfully returned a FLP.
+          description: Succesfully returned an FLP.
+        '404':
+          description: There is no FLP for the Run with this run number.
       tags:
         - flp
       security:
@@ -405,7 +499,7 @@ paths:
       consumes:
         - application/json
     patch:
-      summary: Updates a FLP based on a RunId and FLPName.
+      summary: Updates an FLP based on a RunId and FLPName.
       parameters:
         - name: PatchFlpDto
           required: true
@@ -416,14 +510,15 @@ paths:
           name: name
           required: true
           in: path
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
-          description: Succesfully updated a FLP.
+          description: Succesfully updated an FLP.
+        '404':
+          description: The Run number or/and FLP name does not exist.
       tags:
         - flp
       security:
@@ -434,7 +529,7 @@ paths:
         - application/json
   /flp:
     post:
-      summary: Creates a FLP.
+      summary: Creates an FLP.
       parameters:
         - name: CreateFlpDto
           required: true
@@ -442,8 +537,10 @@ paths:
           schema:
             $ref: '#/definitions/CreateFlpDto'
       responses:
-        '200':
-          description: Succesfully created a FLP.
+        '201':
+          description: Succesfully created an FLP.
+        '409':
+          description: An FLP already exists with this Name and Hostname.
       tags:
         - flp
       security:
@@ -452,20 +549,182 @@ paths:
         - application/json
       consumes:
         - application/json
-  /attachments:
+  /tags:
     post:
-      summary: Creates a Attachment.
+      summary: Creates a Tag
       parameters:
-        - name: CreateAttachmentDto
+        - name: CreateTagDto
           required: true
           in: body
           schema:
-            $ref: '#/definitions/CreateAttachmentDto'
+            $ref: '#/definitions/CreateTagDto'
+      responses:
+        '201':
+          description: Succesfully created a Tag
+          schema:
+            $ref: '#/definitions/Tag'
+        '409':
+          description: A Log already exists with this ID.
+      tags:
+        - tags
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+    get:
+      summary: Returns all Tags.
+      parameters:
+        - type: string
+          name: tagText
+          required: false
+          in: query
+          description: The text of the tag
       responses:
         '200':
-          description: Succesfully created a Attachment.
+          description: Successfully returned all Tags.
+        '404':
+          description: There are no Tags.
       tags:
-        - attachments
+        - tags
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+  '/tags/{id}':
+    get:
+      summary: Returns a specific Tag.
+      parameters:
+        - type: number
+          name: id
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Successfully returned a specific Tag.
+        '404':
+          description: There is no Tag with this.
+      tags:
+        - tags
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+    delete:
+      summary: Deletes a specific Tag.
+      parameters:
+        - type: number
+          name: id
+          required: true
+          in: path
+      responses:
+        '204':
+          description: Succesfully deleted a Tag.
+        '404':
+          description: The Tag with the given ID does not exist.
+      tags:
+        - tags
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+  '/tags/{id}/runs':
+    get:
+      summary: Returns all Runs for a specific Tag.
+      parameters:
+        - type: number
+          name: id
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Succesfully returned Runs.
+        '404':
+          description: No Runs found for this Tag.
+      tags:
+        - tags
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+    patch:
+      summary: Links a Run to a specific Tag.
+      parameters:
+        - name: LinkRunToTagDto
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/LinkRunToTagDto'
+        - type: number
+          name: id
+          required: true
+          in: path
+      responses:
+        '204':
+          description: Succesfully linked a Run to a Tag.
+        '404':
+          description: The Run or Tag does not exist.
+        '409':
+          description: The Run is already linked to the Tag.
+      tags:
+        - tags
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+  '/tags/{id}/logs':
+    get:
+      summary: Returns all Logs for a specific Tag.
+      parameters:
+        - type: number
+          name: id
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Succesfully returned Logs.
+        '404':
+          description: No Logs found for this Tag.
+      tags:
+        - tags
+      security:
+        - bearer: []
+      produces:
+        - application/json
+      consumes:
+        - application/json
+    patch:
+      summary: Links a Run to a specific Tag.
+      parameters:
+        - name: LinkLogToTagDto
+          required: true
+          in: body
+          schema:
+            $ref: '#/definitions/LinkLogToTagDto'
+        - type: number
+          name: id
+          required: true
+          in: path
+      responses:
+        '204':
+          description: Succesfully linked a Run to a Tag.
+        '404':
+          description: The Run or Tag does not exist.
+        '409':
+          description: The Run is already linked to the Tag.
+      tags:
+        - tags
       security:
         - bearer: []
       produces:
@@ -476,14 +735,15 @@ paths:
     get:
       summary: Returns Attachments that belong to a specific Log.
       parameters:
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
           description: Succesfully returned the Attachments.
+        '404':
+          description: No Attachments found for this Log.
       tags:
         - attachments
       security:
@@ -498,6 +758,8 @@ paths:
       responses:
         '200':
           description: Succesfully returned Subsystems.
+        '404':
+          description: No Subsystems found.
       tags:
         - subsystems
       security:
@@ -510,14 +772,15 @@ paths:
     get:
       summary: Returns a specific Subsystem.
       parameters:
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
-          description: Succesfully returned a specific Subsystem.
+          description: Succesfully returned a Subsystem with given ID.
+        '404':
+          description: There is no Subsystem with the given ID.
       tags:
         - subsystems
       security:
@@ -528,15 +791,17 @@ paths:
         - application/json
   '/users/{id}':
     get:
+      summary: Retrieves a specific user.
       parameters:
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
-          description: ''
+          description: Successfully retrieved the user with the given ID.
+        '404':
+          description: Unable to find the User with the given ID
       tags:
         - users
       security:
@@ -547,16 +812,17 @@ paths:
         - application/json
   '/users/{id}/tokens':
     get:
-      summary: Returns all generated Tokens for a specific User.
+      summary: Returns all generated Tokens from a specific User.
       parameters:
-        - type: integer
-          format: int64
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
-          description: Succesfully returned Tokens.
+          description: Succesfully returned all Tokens.
+        '404':
+          description: Unable to find Tokens with given User ID
       tags:
         - users
       security:
@@ -573,9 +839,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/CreateSubSystemPermissionDto'
-        - name: id
-          type: integer
-          format: int64
+        - type: number
+          name: id
           required: true
           in: path
       responses:
@@ -606,23 +871,29 @@ paths:
           enum:
             - ASC
             - DESC
-        - type: string
+        - type: integer
           name: pageSize
           required: false
           in: query
           description: The maximum amount of logs in each result.
-          default: '25'
-        - type: string
+          default: 25
+          format: int64
+          isArray: false
+        - type: integer
           name: pageNumber
           required: false
           in: query
           description: 'The current page, i.e. the offset in the result set based on pageSize.'
-          default: '1'
-        - type: string
+          default: 1
+          format: int64
+          isArray: false
+        - type: integer
           name: logId
           required: false
           in: query
           description: The id of the log.
+          format: int64
+          isArray: false
         - type: string
           name: searchterm
           required: false
@@ -652,24 +923,31 @@ paths:
           required: false
           in: query
           description: The lower bound of the creation time filter range.
+          format: date-time
+          isArray: false
         - type: string
           name: endCreationTime
           required: false
           in: query
           description: The upper bound of the creation time filter range.
-        - type: string
+          format: date-time
+          isArray: false
+        - type: integer
           name: user
           required: false
           in: query
           description: The author of the log..
-        - type: integer
           format: int64
+          isArray: false
+        - type: number
           name: id
           required: true
           in: path
       responses:
         '200':
-          description: Succesfully returened Logs.
+          description: Succesfully returned Logs.
+        '404':
+          description: No Logs found for this User.
       tags:
         - users
       security:
@@ -741,14 +1019,18 @@ paths:
     get:
       summary: Returns all Overviews that belong to a specific Log.
       parameters:
-        - type: string
+        - type: integer
           name: timeRange
           required: false
           in: query
           description: In which time range the logs of eachsubsystem should be posted
+          format: int64
+          isArray: false
       responses:
         '200':
-          description: Succesfully returned Overviews.
+          description: Succesfully returned the overview.
+        '404':
+          description: Unable to find an overview with given input
       tags:
         - overview
       security:
@@ -759,10 +1041,12 @@ paths:
         - application/json
   /setting:
     get:
-      summary: Returns settings.
+      summary: Returns Settings for Jiskefet-UI.
       responses:
         '200':
-          description: Succesfully returns setting.
+          description: Succesfully returned the Settings.
+        '404':
+          description: No Settings were found.
       tags:
         - setting
       produces:
@@ -775,23 +1059,22 @@ definitions:
     properties:
       runNumber:
         type: integer
-        format: int64
         example: 1
         description: The id of the run
+        format: int64
       O2StartTime:
         type: string
-        example: '2019-01-11T15:07:52.340Z'
+        example: '2019-05-07T20:35:24.017Z'
         description: Current Date
         format: date-time
       TrgStartTime:
         type: string
-        example: '2019-01-11T15:07:52.340Z'
+        example: '2019-05-07T20:35:24.017Z'
         description: Current Date
         format: date-time
       runType:
         type: string
-        example:
-          - COSMICS
+        example: COSMICS
         description: What kind of run.
         enum:
           - PHYSICS
@@ -803,19 +1086,19 @@ definitions:
         description: The id of the activity.
       nDetectors:
         type: integer
-        format: int64
         example: 16
         description: Number of detectors during run.
+        format: int64
       nFlps:
         type: integer
-        format: int64
         example: 7
         description: Number of FLPs that computed data
+        format: int64
       nEpns:
         type: integer
-        format: int64
         example: 8
         description: Number of EPNs that stored data
+        format: int64
     required:
       - runNumber
       - O2StartTime
@@ -825,51 +1108,51 @@ definitions:
       - nDetectors
       - nFlps
       - nEpns
-  Log:
+  Tag:
     type: object
     properties:
-      logId:
+      tagId:
         type: integer
         format: int64
-      origin:
+      tagText:
         type: string
-      creationTime:
-        type: string
-        format: date-time
-      title:
-        type: string
-      body:
-        type: string
-      subsystemFkSubsystemId:
-        type: integer
-        format: int64
-      announcementValidUntil:
-        type: string
-        format: date-time
-      commentFkParentLogId:
-        type: integer
-        format: int64
-      commentFkRootLogId:
-        type: integer
-        format: int64
       runs:
         type: array
         items:
           type: string
+      logs:
+        type: array
+        items:
+          type: string
     required:
-      - logId
-      - origin
-      - creationTime
-      - title
-      - body
+      - tagId
+      - tagText
       - runs
+      - logs
   FlpRole:
     type: object
     properties:
       run:
-        type: object
+        type: integer
+        format: int64
+      nSubTimeframes:
+        type: integer
+        format: int64
+      equipmentBytes:
+        type: integer
+        format: int64
+      recordingBytes:
+        type: integer
+        format: int64
+      fairMQBytes:
+        type: integer
+        format: int64
     required:
       - run
+      - nSubTimeframes
+      - equipmentBytes
+      - recordingBytes
+      - fairMQBytes
   Run:
     type: object
     properties:
@@ -919,11 +1202,17 @@ definitions:
       bytesTimeframeBuilder:
         type: integer
         format: int64
-      logs:
+      tags:
         type: array
         minProperties: 1
         items:
-          $ref: '#/definitions/Log'
+          $ref: '#/definitions/Tag'
+      logs:
+        type: array
+        format: int64
+        minProperties: 1
+        items:
+          type: integer
       flpRoles:
         type: array
         items:
@@ -937,6 +1226,7 @@ definitions:
       - nDetectors
       - nFlps
       - nEpns
+      - tags
       - logs
       - flpRoles
   LinkLogToRunDto:
@@ -944,9 +1234,9 @@ definitions:
     properties:
       logId:
         type: integer
-        format: int64
-        example: '1'
+        example: 1
         description: The id of the log to link to the run.
+        format: int64
     required:
       - logId
   PatchRunDto:
@@ -954,18 +1244,17 @@ definitions:
     properties:
       TrgEndTime:
         type: string
-        format: date-time
-        example: '2019-01-11T15:07:52.513Z'
+        example: '2019-05-07T20:35:24.225Z'
         description: Current Date at end of run
+        format: date-time
       O2EndTime:
         type: string
-        format: date-time
-        example: '2019-01-11T15:07:52.514Z'
+        example: '2019-05-07T20:35:24.226Z'
         description: Current Date at end of run
+        format: date-time
       runQuality:
         type: string
-        example:
-          - Good
+        example: Good
         description: The quality of the run.
         enum:
           - Good
@@ -1009,36 +1298,190 @@ definitions:
         description: Attachments of this log
         items:
           type: string
-      runs:
-        type: array
-        example:
-          - 1
-        description: Attached run numbers of this log
-        items:
-          type: string
+      run:
+        type: integer
+        example: 1
+        description: Attached run number of this log
+        format: int64
       user:
         type: integer
-        format: int64
-        example: '1'
+        example: 1
         description: Author of log
+        format: int64
     required:
       - subtype
       - origin
       - title
       - body
       - attachments
-      - runs
+      - run
       - user
+  Attachment:
+    type: object
+    properties:
+      fileId:
+        type: integer
+        format: int64
+      log:
+        type: ''
+      creationTime:
+        type: string
+        format: date-time
+      title:
+        type: string
+      fileName:
+        type: string
+      fileMime:
+        type: string
+      fileData:
+        type: string
+    required:
+      - fileId
+      - log
+      - creationTime
+      - title
+      - fileName
+      - fileMime
+      - fileData
+  Log:
+    type: object
+    properties:
+      logId:
+        type: integer
+        format: int64
+      origin:
+        type: string
+      creationTime:
+        type: string
+        format: date-time
+      title:
+        type: string
+      body:
+        type: string
+      subsystemFkSubsystemId:
+        type: integer
+        format: int64
+      announcementValidUntil:
+        type: string
+        format: date-time
+      commentFkParentLogId:
+        type: integer
+        format: int64
+      commentFkRootLogId:
+        type: integer
+        format: int64
+      tags:
+        type: array
+        minProperties: 1
+        items:
+          $ref: '#/definitions/Tag'
+      runs:
+        type: integer
+        format: int64
+      attachments:
+        type: array
+        items:
+          $ref: '#/definitions/Attachment'
+    required:
+      - logId
+      - origin
+      - creationTime
+      - title
+      - body
+      - tags
+      - runs
+  CreateAttachmentDto:
+    type: object
+    properties:
+      creationTime:
+        type: string
+        format: date-time
+      title:
+        type: string
+        example: This is a very important file.
+        description: What is the name of the file?
+      fileName:
+        type: string
+        example: VeryImportantDocument.txt
+        description: Name of the uploaded file.
+      fileMime:
+        type: string
+        example: text/plain
+        description: What kind of file is it?
+      fileData:
+        type: string
+        example: VmVyeSBpbXBvcnRhbnQK
+        description: The base64 encoded file data.
+    required:
+      - creationTime
+      - fileName
+      - fileMime
+      - fileData
   LinkRunToLogDto:
     type: object
     properties:
       runNumber:
         type: integer
-        format: int64
-        example: '1'
+        example: 1
         description: The id of the run to link to the log.
+        format: int64
     required:
       - runNumber
+  CreateCommentDto:
+    type: object
+    properties:
+      subtype:
+        type: string
+        example: comment
+        description: What kind of log is it?
+        enum:
+          - run
+          - subsystem
+          - announcement
+          - intervention
+          - comment
+      origin:
+        type: string
+        example: human
+        description: Where did the log come from?
+        enum:
+          - human
+          - process
+      rootId:
+        type: number
+        example: 1
+        description: The id of a log
+      parentId:
+        type: number
+        example: 1
+        description: Log id of Parent comment
+      title:
+        type: string
+        example: First Comment on a Log
+        description: Title of the comment
+      body:
+        type: string
+        example: Body for the first comment
+        description: Content of the comment
+      user:
+        type: number
+        example: 1
+        description: The user's id
+      attachments:
+        type: array
+        example: []
+        description: Attachments of this log
+        items:
+          type: string
+    required:
+      - subtype
+      - origin
+      - rootId
+      - parentId
+      - title
+      - body
+      - user
+      - attachments
   CreateFlpDto:
     type: object
     properties:
@@ -1052,9 +1495,9 @@ definitions:
         description: 'Name of the hostmachine, where the flp comes from.'
       run:
         type: integer
-        format: int64
         example: 1
         description: Attached run numbers of this log
+        format: int64
     required:
       - flpName
       - flpHostname
@@ -1064,85 +1507,70 @@ definitions:
     properties:
       nSubTimeframes:
         type: integer
-        format: int64
         example: 50
         description: Number of subtimeframes processed in this FLP. Updated regularly.
+        format: int64
       equipmentBytes:
         type: integer
-        format: int64
         example: 50
         description: data volume out from the readout 'equipment' component in bytes. Can reach PetaBytes.Updated regularly.
+        format: int64
       recordingBytes:
         type: integer
-        format: int64
         example: 50
-        description: data volume out from the readout 'recording' component in bytes. Can reach PetaBytes. Updated regularly.
+        description: data volume out from the readout 'recording' component in bytes.Can reach PetaBytes. Updated regularly.
+        format: int64
       fairMQBytes:
         type: integer
-        format: int64
         example: 50
         description: data volume out from the readout 'fmq' component in bytes. Can reach PetaBytes. Updated regularly.
+        format: int64
     required:
       - nSubTimeframes
       - equipmentBytes
       - recordingBytes
       - fairMQBytes
-  CreateAttachmentDto:
+  CreateTagDto:
     type: object
     properties:
-      title:
+      tagText:
         type: string
-        example: This is a very important file.
-        description: What is the name of the file?
-      fileName:
-        type: string
-        example: VeryImportantDocument.txt
-        description: Name of the uploaded file.
-      fileSize:
-        type: integer
-        format: int64
-        example: 42
-        description: File size in bytes.
-      fileMime:
-        type: string
-        example: text/plain
-        description: What kind of file is it?
-      contentType:
-        type: string
-        example: 'content-type: text/plain'
-        description: Content type header containing file mime
-      fileData:
-        type: string
-        example: VmVyeSBpbXBvcnRhbnQK
-        description: The base64 encoded file data.
-      logId:
-        type: integer
-        format: int64
-        example: 1
-        description: The id of the corresponding Log
+        example: '#ALICE'
+        description: The text of the tag
     required:
-      - title
-      - fileName
-      - fileSize
-      - fileMime
-      - contentType
-      - fileData
-      - logId
-  User:
+      - tagText
+  LinkRunToTagDto:
     type: object
-    properties: {}
+    properties:
+      runNumber:
+        type: number
+        example: 1
+        description: The id of the run to link to the tag.
+    required:
+      - runNumber
+  LinkLogToTagDto:
+    type: object
+    properties:
+      logId:
+        type: number
+        example: 1
+        description: The id of the log to link to the tag.
+    required:
+      - logId
   SubSystem:
     type: object
-    properties: {}
+    properties:
+      subsystemId:
+        type: integer
+        format: int64
+    required:
+      - subsystemId
   CreateSubSystemPermissionDto:
     type: object
     properties:
       user:
-        title: User
-        allOf:
-          - $ref: '#/definitions/User'
-          - example: 8
-            description: Id of the user.
+        type: integer
+        format: int64
       subsystem:
         title: SubSystem
         allOf:
