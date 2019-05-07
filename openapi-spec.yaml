@@ -1320,7 +1320,7 @@ definitions:
         type: integer
         format: int64
       log:
-        type: ''
+        type: string
       creationTime:
         type: string
         format: date-time

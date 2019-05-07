@@ -32,4 +32,4 @@ The following are known issues:
  - Various user & auth related issues. The affected endpoints are currently not used by the C++/Go clients, fortunately.
    - In some places, instead of an int64 integer ID, `type: user` is specified, which is not a valid type.
    - The endpoint `/users/{id}/tokens` does not list a parameter for the ID, making it unusable.
-   - In some places, `type: ''` is specified, which is not a valid type. These should probably be `type: string`
+ - With the Attachment log property, `type: ''` is specified, which is not a valid type. Should probably be `type: string`
