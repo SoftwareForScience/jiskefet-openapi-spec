@@ -245,7 +245,7 @@ paths:
         '201':
           description: Succesfully created a Log
           schema:
-            $ref: '#/definitions/Log'
+            type: object
         '409':
           description: A Log already exists with this ID.
       tags:
@@ -436,6 +436,8 @@ paths:
       responses:
         '200':
           description: ''
+          schema:
+            type: object
       tags:
         - logs
       security:
@@ -455,6 +457,8 @@ paths:
       responses:
         '201':
           description: ''
+          schema:
+            type: object
       tags:
         - logs
       security:
