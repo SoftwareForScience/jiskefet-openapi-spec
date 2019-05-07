@@ -64,7 +64,6 @@ paths:
           description: The maximum amount of logs in each result.
           default: 25
           format: int64
-          isArray: false
         - type: integer
           name: pageNumber
           required: false
@@ -72,70 +71,60 @@ paths:
           description: 'The current page, i.e. the offset in the result set based on pageSize.'
           default: 1
           format: int64
-          isArray: false
         - type: integer
           name: runNumber
           required: false
           in: query
           description: The id of the log.
           format: int64
-          isArray: false
         - type: string
           name: startTimeO2Start
           required: false
           in: query
           description: The lower bound of the timeO2Start filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endTimeO2Start
           required: false
           in: query
           description: The upper bound of the timeO2Start filter range.
           format: date-time
-          isArray: false
         - type: string
           name: startTimeTrgStart
           required: false
           in: query
           description: The lower bound of the timeTrgStart filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endTimeTrgStart
           required: false
           in: query
           description: The upper bound of the timeTrgStart filter range.
           format: date-time
-          isArray: false
         - type: string
           name: startTimeTrgEnd
           required: false
           in: query
           description: The lower bound of the timeTrgEnd filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endTimeTrgEnd
           required: false
           in: query
           description: The upper bound of the timeTrgEnd filter range.
           format: date-time
-          isArray: false
         - type: string
           name: startTimeO2End
           required: false
           in: query
           description: The lower bound of the timeO2End filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endTimeO2End
           required: false
           in: query
           description: The upper bound of the timeO2End filter range.
           format: date-time
-          isArray: false
         - type: string
           name: activityId
           required: false
@@ -287,7 +276,6 @@ paths:
           description: The maximum amount of logs in each result.
           default: 25
           format: int64
-          isArray: false
         - type: integer
           name: pageNumber
           required: false
@@ -295,14 +283,12 @@ paths:
           description: 'The current page, i.e. the offset in the result set based on pageSize.'
           default: 1
           format: int64
-          isArray: false
         - type: integer
           name: logId
           required: false
           in: query
           description: The id of the log.
           format: int64
-          isArray: false
         - type: string
           name: searchterm
           required: false
@@ -333,21 +319,18 @@ paths:
           in: query
           description: The lower bound of the creation time filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endCreationTime
           required: false
           in: query
           description: The upper bound of the creation time filter range.
           format: date-time
-          isArray: false
         - type: integer
           name: user
           required: false
           in: query
           description: The author of the log..
           format: int64
-          isArray: false
       responses:
         '200':
           description: Succesfully returned Logs.
@@ -878,7 +861,6 @@ paths:
           description: The maximum amount of logs in each result.
           default: 25
           format: int64
-          isArray: false
         - type: integer
           name: pageNumber
           required: false
@@ -886,14 +868,12 @@ paths:
           description: 'The current page, i.e. the offset in the result set based on pageSize.'
           default: 1
           format: int64
-          isArray: false
         - type: integer
           name: logId
           required: false
           in: query
           description: The id of the log.
           format: int64
-          isArray: false
         - type: string
           name: searchterm
           required: false
@@ -924,21 +904,18 @@ paths:
           in: query
           description: The lower bound of the creation time filter range.
           format: date-time
-          isArray: false
         - type: string
           name: endCreationTime
           required: false
           in: query
           description: The upper bound of the creation time filter range.
           format: date-time
-          isArray: false
         - type: integer
           name: user
           required: false
           in: query
           description: The author of the log..
           format: int64
-          isArray: false
         - type: number
           name: id
           required: true
@@ -1025,7 +1002,6 @@ paths:
           in: query
           description: In which time range the logs of eachsubsystem should be posted
           format: int64
-          isArray: false
       responses:
         '200':
           description: Succesfully returned the overview.
