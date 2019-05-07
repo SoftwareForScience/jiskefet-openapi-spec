@@ -161,7 +161,8 @@ paths:
     get:
       summary: Returns a specific Run.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -186,7 +187,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/PatchRunDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -210,7 +212,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/LinkLogToRunDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -353,7 +356,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/CreateAttachmentDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -374,7 +378,8 @@ paths:
     get:
       summary: Returns a specific Log.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -400,7 +405,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/LinkRunToLogDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -422,7 +428,8 @@ paths:
   '/logs/{id}/threads':
     get:
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -464,7 +471,8 @@ paths:
           name: name
           required: true
           in: path
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -493,7 +501,8 @@ paths:
           name: name
           required: true
           in: path
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -581,7 +590,8 @@ paths:
     get:
       summary: Returns a specific Tag.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -601,7 +611,8 @@ paths:
     delete:
       summary: Deletes a specific Tag.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -622,7 +633,8 @@ paths:
     get:
       summary: Returns all Runs for a specific Tag.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -647,7 +659,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/LinkRunToTagDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -670,7 +683,8 @@ paths:
     get:
       summary: Returns all Logs for a specific Tag.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -695,7 +709,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/LinkLogToTagDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -718,7 +733,8 @@ paths:
     get:
       summary: Returns Attachments that belong to a specific Log.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -755,7 +771,8 @@ paths:
     get:
       summary: Returns a specific Subsystem.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -776,7 +793,8 @@ paths:
     get:
       summary: Retrieves a specific user.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -797,7 +815,8 @@ paths:
     get:
       summary: Returns all generated Tokens from a specific User.
       parameters:
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -822,7 +841,8 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/CreateSubSystemPermissionDto'
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -916,7 +936,8 @@ paths:
           in: query
           description: The author of the log..
           format: int64
-        - type: number
+        - type: integer
+          format: int64
           name: id
           required: true
           in: path
@@ -1424,11 +1445,13 @@ definitions:
           - human
           - process
       rootId:
-        type: number
+        type: integer
+        format: int64
         example: 1
         description: The id of a log
       parentId:
-        type: number
+        type: integer
+        format: int64
         example: 1
         description: Log id of Parent comment
       title:
@@ -1440,7 +1463,8 @@ definitions:
         example: Body for the first comment
         description: Content of the comment
       user:
-        type: number
+        type: integer
+        format: int64
         example: 1
         description: The user's id
       attachments:
@@ -1519,7 +1543,8 @@ definitions:
     type: object
     properties:
       runNumber:
-        type: number
+        type: integer
+        format: int64
         example: 1
         description: The id of the run to link to the tag.
     required:
@@ -1528,7 +1553,8 @@ definitions:
     type: object
     properties:
       logId:
-        type: number
+        type: integer
+        format: int64
         example: 1
         description: The id of the log to link to the tag.
     required:
