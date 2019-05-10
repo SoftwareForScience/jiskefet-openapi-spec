@@ -558,7 +558,7 @@ paths:
         '201':
           description: Succesfully created a Tag
           schema:
-            $ref: '#/definitions/Tag'
+            type: object
         '409':
           description: A Log already exists with this ID.
       tags:
@@ -580,6 +580,8 @@ paths:
       responses:
         '200':
           description: Successfully returned all Tags.
+          schema:
+            type: object
         '404':
           description: There are no Tags.
       tags:
