@@ -5,9 +5,10 @@ The spec was generated using the NestJS Swagger module.
 ## How to generate
 1. Deploy the server using https://github.com/SoftwareForScience/jiskefet-deploy
 2. Go to the spec endpoint, e.g. https://my.server.address/api/doc-json
-3. Make some manual changes... see [Caveats]
-4. Plug the output into https://editor.swagger.io/
-
+3. Plug the output into https://editor.swagger.io/ and use it to convert to YAML
+3. Make some manual changes: see [Caveats]
+4. Plug the updated output into https://editor.swagger.io/
+5. Click "Generate Client" -> "Go" 
 
 ## Caveats
 ### `isArray: false` bug
@@ -16,7 +17,10 @@ For more information: https://github.com/nestjs/swagger/pull/149
 
 To fix it, run this command:
 ```
-sed -i '/isArray: false/d' ./openapi-spec.yaml
+# On Linux
+sed -i '/isArray: false/d' ./openapi-spec.yaml 
+# On OSX
+sed -i .bak '/isArray: false/d' ./openapi-spec.yaml 
 ```
 
 ### Other errors
